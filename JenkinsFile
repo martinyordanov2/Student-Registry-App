@@ -12,14 +12,14 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                checkout scm
+                git branch: 'main', url: 'https://github.com/martinyordanov2/Student-Registry-App'
             }
         }
 
         stage('Install dependancies'){
             steps{
                 script{
-                    sh 'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -27,13 +27,13 @@ pipeline{
         stage('StartAppAndRunTests'){
             steps{
                 script{
-                    sh 'npm start &'
-                    sh 'wait-on http://localhost:8081'
-                    sh 'npm test'
+                    bat 'npm start &'
+                    bat 'wait-on http://localhost:8081'
+                    bat 'npm test'
                 }
             }
         }
     }
 
-    
+
 }
