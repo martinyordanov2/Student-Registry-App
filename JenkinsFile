@@ -1,0 +1,39 @@
+pipeline{
+    agent any
+
+    environment{
+        NODE_VERSION = '20.x'
+    }
+
+    tools{
+        nodejs "${NODE_VERSION}"
+    }
+
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scm
+            }
+        }
+
+        stage('Install dependancies'){
+            steps{
+                script{
+                    sh 'npm install'
+                }
+            }
+        }
+        
+        stage('StartAppAndRunTests'){
+            steps{
+                script{
+                    sh 'npm start &'
+                    sh 'wait-on http://localhost:8081'
+                    sh 'npm test'
+                }
+            }
+        }
+    }
+
+    
+}
